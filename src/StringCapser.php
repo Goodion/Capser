@@ -9,6 +9,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class StringCapser extends Command
 {
+    private function toggle($element)
+    {
+        return $element === 0 ? 1 : 0;
+    }
+
     protected function configure()
     {
         $this
@@ -20,18 +25,13 @@ class StringCapser extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        function toggle($element)
-        {
-            return $element === 0 ? 1 : 0;
-        }
-
         $lettersArray = str_split($input->getArgument('string'));
 
         $j = ($input->getArgument('order') == '' || $input->getArgument('order') === 'even') ? 1 : 0;
 
         foreach ($lettersArray as $letter) {
                 $finalArray[] = $j === 0 ? strtolower($letter) : strtoupper($letter);
-                $j = toggle($j);
+                $j = $this->toggle($j);
         }
 
         $finalString = implode('', $finalArray);
